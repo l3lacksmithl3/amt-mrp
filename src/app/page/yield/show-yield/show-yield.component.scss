@@ -1,0 +1,344 @@
+.my-class {
+  background-color: darkblue;
+  text-align: center;
+}
+$primary: var(--primary);
+
+::ng-deep .ag-root.ag-layout-normal {
+  height: 100%;
+  zoom: $primary;
+}
+
+
+// table, th, td {
+//   border:1px solid black;
+// }
+
+.border > th {
+  border:1px solid black;
+}
+
+.border-td > td {
+  border:1px solid black;
+}
+
+table{
+  font-size: 10px;
+}
+th,td{
+  padding: 5px;
+}
+
+// td:first{
+//   position: absolute;
+//   width: 5em;
+//   left: 0;
+//   top: auto;
+//   border-top-width: 1px;
+//   /*only relevant for first row*/
+//   margin-top: -1px;
+// }
+
+
+// table td:nth-child(1),
+// table th:nth-child(1) {
+//   position: sticky;
+//   left: 0;
+//   background-color: #ddd;
+//   z-index: 999;
+// }
+// table td:nth-child(2),
+// table th:nth-child(2) {
+//   position: sticky;
+//   left: 70px;
+//   background-color: #ddd;
+//   z-index: 40;
+// }
+
+table td.setFreezeHW_1 ,
+table th.setFreezeHW_1 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background-color:#333;
+  z-index: 999;
+  color: white;
+  height: 4rem;
+}
+table td.setFreezeHW_2 ,
+table th.setFreezeHW_2 {
+  position: sticky;
+  left: 100px;
+  top: 0;
+  background-color:#333;
+  z-index: 999;
+  color: white;
+}
+
+table td.setFreezeHW_3 ,
+table th.setFreezeHW_3 {
+  position: sticky;
+  left: 200px;
+  top: 0;
+  background-color:#333;
+  z-index: 999;
+  color: white;
+}
+
+table td.setFreezeHW_4 ,
+table th.setFreezeHW_4 {
+  position: sticky;
+  left: 300px;
+  top: 0;
+  background-color:#333;
+  z-index: 999;
+  color: white;
+}
+
+
+table td.setFreeze_1 ,
+table th.setFreeze_1 {
+  position: sticky;
+  left: 0;
+  top: 0;
+  background-color: #ddd;
+  z-index: 99;
+}
+
+table td.setFreeze_2 ,
+table th.setFreeze_2 {
+  position: sticky;
+  left: 100px;
+  background-color: #ddd;
+  z-index: 99;
+}
+
+table td.setFreeze_3 ,
+table th.setFreeze_3 {
+  position: sticky;
+  left: 200px;
+  background-color: #ddd;
+  z-index: 99;
+}
+table td.setFreeze_4 ,
+table th.setFreeze_4 {
+  position: sticky;
+  left: 300px;
+  background-color: #ddd;
+  z-index: 99;
+  border: 1px solid;
+}
+
+.tableFixHead {
+  overflow-y: auto; /* make the table scrollable if height is more than 200 px  */
+  height: 70vh; /* gives an initial height of 200px to the table */
+}
+ thead th {
+  position: sticky; /* make the table heads sticky */
+  top: 0px; /* table head will be placed from the top of the table and sticks to it */
+  background-color: #333;
+  color: #fdfdfd;
+}
+
+
+table td.setFreezeHead_1 ,
+table th.setFreezeHead_1 {
+  position: sticky; /* make the table heads sticky */
+  top: 0px; /* table head will be placed from the top of the table and sticks to it */
+  background-color: #a25454;
+  color: #fdfdfd;
+  z-index: 0;
+}
+
+table td.setFreezeHead_2 ,
+table th.setFreezeHead_2 {
+  position: sticky; /* make the table heads sticky */
+  top: 31.7px; /* table head will be placed from the top of the table and sticks to it */
+  background-color: #a25454;
+  color: #fdfdfd;
+  z-index: 50;
+}
+
+
+
+
+table td.setFreezeHW_10 ,
+table th.setFreezeHW_10 {
+  position: sticky;
+  left: 0;
+  top: 64px;
+  background-color:#ffffff;
+  z-index: 999;
+  color: white;
+}
+table td.setFreezeHW_20 ,
+table th.setFreezeHW_20 {
+  position: sticky;
+  left: 100px;
+  top: 64px;
+  background-color:#ffffff;
+  z-index: 999;
+  color: white;
+}
+
+table td.setFreezeHW_30 ,
+table th.setFreezeHW_30 {
+  position: sticky;
+  left: 200px;
+  top: 64px;
+  background-color:#ffffff;
+  z-index: 999;
+  color: white;
+}
+
+table td.setFreezeHW_40 ,
+table th.setFreezeHW_40 {
+  position: sticky;
+  left: 300px;
+  top: 64px;
+  background-color:#ffffff;
+  z-index: 999;
+  color: white;
+}
+
+
+table td.setFreezeHead_20 ,
+table th.setFreezeHead_20 {
+  position: sticky;
+  top: 64px;
+  background-color:#ffffff;
+  z-index: 0;
+  color: rgb(4, 1, 1);
+}
+
+
+table td.setFreezeHead_Average ,
+table th.setFreezeHead_Average {
+  position: sticky;
+  top: 0;
+  background-color:#ffffff;
+  z-index: 999;
+  color: rgb(4, 1, 1);
+}
+
+
+table td.setFreezeHW_right ,
+table th.setFreezeHW_right {
+  position: sticky;
+  top: 0px;
+  right: 0px;
+  background-color:#333;
+  z-index: 999;
+  color: rgb(255, 0, 0);
+  // height: 4rem;
+}
+
+
+table td.setFreezeHW_right_1 ,
+table th.setFreezeHW_right_1 {
+  position: sticky;
+  top: 31.5px;
+  right: 0;
+  background-color:#333;
+  z-index: 999;
+  color: rgb(255, 0, 0);
+  // height: 4rem;
+}
+
+table td.setFreezeHW_right_2 ,
+table th.setFreezeHW_right_2 {
+  position: sticky;
+  top: 31.5px;
+  right: 100px;
+  background-color:#333;
+  z-index: 999;
+  color: rgb(255, 0, 0);
+  // height: 4rem;
+}
+
+table td.setFreezeHW_right_3 ,
+table th.setFreezeHW_right_3 {
+  position: sticky;
+  top: 31.5px;
+  right: 200px;
+  background-color:#333;
+  z-index: 999;
+  color: rgb(255, 0, 0);
+  // height: 4rem;
+}
+
+
+
+
+table td.setFreezeHW_right_10 ,
+table th.setFreezeHW_right_10 {
+  position: sticky;
+  top: 64px;
+  right: 200px;
+  background-color:#ffffff;
+  z-index: 999;
+  color: rgb(4, 1, 1);
+}
+
+table td.setFreezeHW_right_20 ,
+table th.setFreezeHW_right_20 {
+  position: sticky;
+  top: 64px;
+  right: 100px;
+  background-color:#ffffff;
+  z-index: 999;
+  color: rgb(4, 1, 1);
+}
+
+table td.setFreezeHW_right_30 ,
+table th.setFreezeHW_right_30 {
+  position: sticky;
+  top: 64px;
+  right: 0;
+  background-color:#ffffff;
+  z-index: 999;
+  color: rgb(4, 1, 1);
+}
+
+
+table td.setFreezeHW_right_100 ,
+table th.setFreezeHW_right_100 {
+  position: sticky;
+  right: 0;
+  background-color:#ddd;
+  z-index: 0;
+  color: rgb(4, 1, 1);
+}
+
+table td.setFreezeHW_right_200 ,
+table th.setFreezeHW_right_200 {
+  position: sticky;
+  right: 100px;
+  background-color:#ddd;
+  z-index: 0;
+  color: rgb(4, 1, 1);
+}
+
+table td.setFreezeHW_right_300 ,
+table th.setFreezeHW_right_300 {
+  position: sticky;
+  right: 200px;
+  background-color:#ddd;
+  z-index: 0;
+  color: rgb(4, 1, 1);
+}
+
+
+
+.hidden {
+  content-visibility: hidden;
+}
+
+
+.btns {
+  padding: 0px;
+  font-size: larger;
+  width: -webkit-fill-available;
+  height: 25px;
+  border-radius: inherit;
+}

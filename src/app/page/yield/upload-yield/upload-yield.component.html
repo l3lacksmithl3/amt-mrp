@@ -1,0 +1,95 @@
+<mat-card style="margin: 14px;">
+
+  <div class="col-lg-12" style="opacity: 0%;height: 1px;">
+    <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum enim non ratione minima repudiandae! Nesciunt
+      facilis explicabo, qui sunt iste possimus quia libero dolore odit cumque ducimus quis vero earum!</span>
+  </div>
+
+
+  <mat-card-header>
+    <mat-card-title>Upload Yield</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="row">
+
+      <div class="" style="margin: 14px;">
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" (dateChange)="updateInput()" [(ngModel)]="dateSelect">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="" style="margin: 14px;margin-top: 18px;">
+        <input hidden type="file" id="files" (change)="upload($event)" multiple="false">
+        <label [hidden]="!dateSelect" class="btn btn-info " for="files"><img src="assets/excel.png" alt=""
+            style="width: 20px;margin: 5px;">Import</label>
+      </div>
+
+    </div>
+  </mat-card-content>
+
+
+
+  <mat-card-content [hidden]="this.data?.length == 0">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="1">
+          <th mat-header-cell *matHeaderCellDef> Model No </th>
+          <td mat-cell *matCellDef="let element"> {{element['Model No']}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="2">
+          <th mat-header-cell *matHeaderCellDef> Customer part number </th>
+          <td mat-cell *matCellDef="let element"> {{element['Customer part number']}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="3">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let element"> {{element['Type']}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="4">
+          <th mat-header-cell *matHeaderCellDef> Input </th>
+          <td mat-cell *matCellDef="let element"> {{element['Input']}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="5">
+          <th mat-header-cell *matHeaderCellDef> Out put </th>
+          <td mat-cell *matCellDef="let element"> {{element['Output']}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="6">
+          <th mat-header-cell *matHeaderCellDef>Out put repair </th>
+          <td mat-cell *matCellDef="let element"> {{element['Output repair']}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="7">
+          <th mat-header-cell *matHeaderCellDef> Total out put </th>
+          <td mat-cell *matCellDef="let element"> {{element['Total output']}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="8">
+          <th mat-header-cell *matHeaderCellDef> Strt yield </th>
+          <td mat-cell *matCellDef="let element"> {{element['Strt yield']  | percent:'2.2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="9">
+          <th mat-header-cell *matHeaderCellDef> Total yields. </th>
+          <td mat-cell *matCellDef="let element"> {{element['Total yields']  | percent:'2.2'}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 20,100]" showFirstLastButtons
+        aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+
+  </mat-card-content>
+
+</mat-card>

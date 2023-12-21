@@ -1,0 +1,236 @@
+<mat-card style="margin: 14px;">
+  <div class="row">
+    <div class="col" style="text-align: center;">
+      <button class="btn btn-info" *ngIf="!this.model_hide" (click)="this.model_hide = true">Hide</button>
+      <button *ngIf="this.model_hide" (click)="this.model_hide = false"
+        style="border: inherit;background-color: inherit;"><img src="assets/calendar.png" style="width: 25px;"
+          alt=""></button>
+    </div>
+  </div>
+  <div class="col-lg-12" style="opacity: 0%;height: 1px;">
+    <span style="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum enim non ratione minima repudiandae!
+      Nesciunt facilis explicabo, qui sunt iste possimus quia libero dolore odit cumque ducimus quis vero earum! Lorem
+      ipsum dolor sit, amet consectetur adipisicing elit. Nisi hic atque corrupti ducimus maxime magnam fugiat quidem,
+      numquam inventore quis dolores, quaerat autem odit minima nam fugit recusandae similique ab?</span>
+  </div>
+
+
+  <div class="row" [ngClass]="{'hidden': this.model_hide}">
+    <div class="col">
+      <mat-card-title>Yield By Model</mat-card-title>
+    </div>
+    <div class="col">
+      <div class="row" style="justify-content: right;margin: 1px;">
+        <div class="">
+          <mat-form-field appearance="fill">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" (dateChange)="updateDate()" [(ngModel)]="dateSelect">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker startView="year"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="row" style="margin-left: 10px;" *ngIf="this.data">
+    <div class="col-lg-12" style="overflow: auto;height: 35vh;
+    width: 1000px ;padding: 0;" id="tableWrapper_1">
+      <table style="border:none ;border-radius: 8px;table-layout: fixed;
+      width: 100%;">
+        <!-- <thead> -->
+        <tr>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;" *ngFor="let item of this.length_index">
+          </th>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;"></th>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;"></th>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;"></th>
+        </tr>
+
+        <tr class="border " style="text-align: center;">
+          <th class="setFreezeHW_1" rowspan="2">Model No</th>
+          <th class="setFreezeHW_2" rowspan="2">Customer</th>
+          <th class="setFreezeHW_3" rowspan="2">Type</th>
+          <th class="setFreezeHW_4" rowspan="2">Analog Digital</th>
+          <th class="setFreezeHead_1" colspan="3" *ngFor="let date of this.labelHead">{{moment(date).format('MMM
+            YYYY')}}</th>
+          <th class="setFreezeHW_right" colspan="3">Average 4 months ago</th>
+        </tr>
+        <!-- </thead> -->
+
+        <tr class="border-td  " style="text-align: center;">
+          <th class="setFreezeHead_2" style="width: 33%;" *ngFor="let item of this.index_head;let i = index">
+            <span *ngIf="i%3==0">Input</span>
+            <span *ngIf="i%3==1">Output</span>
+            <span *ngIf="i%3==2">Output repair</span>
+          </th>
+          <th class="setFreezeHW_right_3">Input</th>
+          <th class="setFreezeHW_right_2">Output</th>
+          <th class="setFreezeHW_right_1">Output repair</th>
+        </tr>
+
+        <tr class="border-td  " style="text-align: center;">
+          <th class="setFreezeHW_10">
+            <input type="text" class="form-control" (keyup)="BTN_Model()" [(ngModel)]="this.key_model">
+          </th>
+          <th class="setFreezeHW_20">
+            <input type="text" class="form-control" (keyup)="BTN_Model()" [(ngModel)]="this.key_customer">
+          </th>
+          <th class="setFreezeHW_30">
+            <input type="text" class="form-control" (keyup)="BTN_Model()" [(ngModel)]="this.key_Type">
+          </th>
+          <th class="setFreezeHW_40">
+            <input type="text" class="form-control" (keyup)="BTN_Model()" [(ngModel)]="this.key_AD">
+          </th>
+          <th class="setFreezeHead_20" *ngFor="let item of this.index_head;let i = index">
+            <input readonly type="text" class="form-control" (keyup)="BTN_Model()" [(ngModel)]="this.key_Input[i]"
+              style="text-align: center;">
+          </th>
+          <th class="setFreezeHW_right_10">
+            <input readonly type="text" class="form-control">
+          </th>
+          <th class="setFreezeHW_right_20">
+            <input readonly type="text" class="form-control">
+          </th>
+          <th class="setFreezeHW_right_30">
+            <input readonly type="text" class="form-control">
+          </th>
+        </tr>
+
+
+        <tr class="border-td" style="text-align: center;" *ngFor="let item of this.data">
+          <td class="setFreeze_1">{{item['Model']}}</td>
+          <td class="setFreeze_2">{{item['Customer'] || ''}}</td>
+          <td class="setFreeze_3">{{item['Type']}}</td>
+          <td class="setFreeze_4">{{item['TypeAD']}}</td>
+          <td *ngFor="let value of this.index_head;let i = index">
+            <span *ngIf="i%3==0 && item.value[value]">{{item.value[value]['Input'] || '' | currency:'USD':'':'1.0-0'
+              }}</span>
+            <span *ngIf="i%3==1 && item.value[value]">{{item.value[value]['Output'] || '' | currency:'USD':'':'1.0-0'
+              }}</span>
+            <span *ngIf="i%3==2 && item.value[value]">{{item.value[value]['Output repair'] || '' |
+              currency:'USD':'':'1.0-0' }}</span>
+          </td>
+          <!-- <td *ngFor="let average of item.average" class="setFreezeHW_right_100">
+            <span >{{average}}</span>
+          </td> -->
+          <td class="setFreezeHW_right_300">{{item?.average[0]}}</td>
+          <td class="setFreezeHW_right_200">{{item?.average[1]}}</td>
+          <td class="setFreezeHW_right_100">{{item?.average[2]}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+
+  </div>
+
+
+  <div class="row" style="margin: 20px;">
+    <div class="col">
+
+    </div>
+  </div>
+
+
+
+
+
+  <div class="row" style="margin-left: 10px;" *ngIf="this.data">
+    <div class="col-lg-12" style="overflow: auto;height: 35vh;
+    width: 1000px ;padding: 0;" id="tableWrapper_2" >
+      <table style="border:none ;border-radius: 8px;table-layout: fixed;
+      width: 100%;" >
+
+        <tr>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;" *ngFor="let item of this.length_index">
+          </th>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;"></th>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;"></th>
+          <th style="width: 100px !important;height: 1px !important;padding: 0;"></th>
+        </tr>
+
+        <tr class="border " style="text-align: center;">
+          <th class="setFreezeHW_1" rowspan="2">Model No</th>
+          <th class="setFreezeHW_2" rowspan="2">Customer</th>
+          <th class="setFreezeHW_3" rowspan="2">Type</th>
+          <th class="setFreezeHW_4" rowspan="2">Analog Digital</th>
+          <th class="setFreezeHead_1" colspan="3" *ngFor="let date of this.labelHead">{{moment(date).format('MMM
+            YYYY')}}</th>
+          <th class="setFreezeHW_right" colspan="3">Average 4 months ago</th>
+        </tr>
+
+
+        <tr class="border-td  " style="text-align: center;">
+          <th class="setFreezeHead_2" style="width: 33%;" *ngFor="let item of this.index_head;let i = index">
+            <span *ngIf="i%3==0">Strt yield</span>
+            <span *ngIf="i%3==1">Total yield</span>
+            <span *ngIf="i%3==2">PU yield N + 1</span>
+          </th>
+          <th class="setFreezeHW_right_3">Strt yield</th>
+          <th class="setFreezeHW_right_2">Total yield</th>
+          <th class="setFreezeHW_right_1">PU yield</th>
+        </tr>
+
+        <tr class="border-td  " style="text-align: center;">
+          <th class="setFreezeHW_10">
+            <input type="text" class="form-control" (keyup)="BTN_PU()" [(ngModel)]="this.PU_key_model">
+          </th>
+          <th class="setFreezeHW_20">
+            <input type="text" class="form-control" (keyup)="BTN_PU()" [(ngModel)]="this.PU_key_customer">
+          </th>
+          <th class="setFreezeHW_30">
+            <input type="text" class="form-control" (keyup)="BTN_PU()" [(ngModel)]="this.PU_key_Type">
+          </th>
+          <th class="setFreezeHW_40">
+            <input type="text" class="form-control" (keyup)="BTN_PU()" [(ngModel)]="this.PU_key_AD">
+          </th>
+          <th class="setFreezeHead_20" *ngFor="let item of this.index_head;let i = index">
+            <input readonly type="text" class="form-control" (keyup)="BTN_PU()" [(ngModel)]="this.PU_key_Input[i]"
+              style="text-align: center;">
+          </th>
+          <th class="setFreezeHW_right_10">
+            <input readonly type="text" class="form-control">
+          </th>
+          <th class="setFreezeHW_right_20">
+            <input readonly type="text" class="form-control">
+          </th>
+          <th class="setFreezeHW_right_30">
+            <input readonly type="text" class="form-control">
+          </th>
+        </tr>
+
+
+        <tr class="border-td" style="text-align: center;" *ngFor="let item of this.data_pu">
+          <td class="setFreeze_1">{{item['Model']}}</td>
+          <td class="setFreeze_2">{{item['Customer'] || ''}}</td>
+          <td class="setFreeze_3">{{item['Type']}}</td>
+          <td class="setFreeze_4">{{item['TypeAD']}}</td>
+          <td class="" *ngFor="let value of item.value;let i = index" style="padding: 0px;">
+            <span *ngIf="i != item.value.length - 1">{{value}}</span>
+            <button class="btn btn-info btns" *ngIf="i == item.value.length - 1 && value">{{value}}</button>
+          </td>
+
+
+          <td class="setFreezeHW_right_300">{{item?.average[0]}}</td>
+          <td class="setFreezeHW_right_200">{{item?.average[1]}}</td>
+          <td class="setFreezeHW_right_100">{{item?.average[2]}}</td>
+
+
+        </tr>
+      </table>
+    </div>
+
+
+
+  </div>
+
+
+
+
+</mat-card>
+
+
