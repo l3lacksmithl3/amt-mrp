@@ -2,12 +2,22 @@
 
 <mat-divider class="mt-3"></mat-divider>
 
-<mat-expansion-panel style="box-shadow: none;background-color: inherit" [expanded]="0" >
+
+<div class="mt-3" style="width: 100%; " *ngFor="let item of Compare">
+  <button class="btn" style="width: 100%; background-color: inherit; text-align: left;font-size: 14px;"
+    [routerLink]="[item.path]" [routerLinkActive]="['is-active']"><img [src]="item.icon"
+      style="width: 25px;margin-right: 5px;margin-bottom: 4px;">&nbsp;{{item.title}}</button>
+</div>
+
+
+<mat-divider class="mt-3"></mat-divider>
+
+<mat-expansion-panel style="box-shadow: none;background-color: inherit" [expanded]="0">
   <mat-expansion-panel-header style="padding: 0px;background-color:inherit;height: 2rem;margin: 4px;margin-top: 1rem;">
-    <button class="btn" style="width: 100%; background-color: inherit; text-align: left;"><img
-        src="assets/yield.png" style="width: 30px;margin-right: 5px;margin-bottom: 4px;">&nbsp;Yield</button>
-        <!-- <mat-panel-title style="font-size: large;">Yield</mat-panel-title> -->
-  </mat-expansion-panel-header >
+    <button class="btn" style="width: 100%; background-color: inherit; text-align: left;"><img src="assets/yield.png"
+        style="width: 30px;margin-right: 5px;margin-bottom: 4px;">&nbsp;Yield</button>
+    <!-- <mat-panel-title style="font-size: large;">Yield</mat-panel-title> -->
+  </mat-expansion-panel-header>
 
   <div style="width: 100%; " *ngFor="let item of page">
     <button class="btn" style="width: 100%; background-color: inherit; text-align: left;font-size: 14px;"
@@ -15,5 +25,30 @@
         style="width: 25px;margin-right: 5px;margin-bottom: 4px;">&nbsp;{{item.title}}</button>
   </div>
 </mat-expansion-panel>
+
+
+
+
+
+<mat-divider class="mt-3"></mat-divider>
+
+<mat-expansion-panel style="box-shadow: none;background-color: inherit" [expanded]="0">
+  <mat-expansion-panel-header style="padding: 0px;background-color:inherit;height: 2rem;margin: 4px;margin-top: 1rem;">
+    <button class="btn" style="width: 100%; background-color: inherit; text-align: left;"><img
+        src="assets/upload-folder.png" style="width: 30px;margin-right: 5px;margin-bottom: 4px;">&nbsp;Upload File</button>
+  </mat-expansion-panel-header>
+
+  <div style="width: 100%; " *ngFor="let item of input">
+    <button class="btn" style="width: 100%; background-color: inherit; text-align: left;font-size: 14px;"
+      [routerLink]="[item.path]" [routerLinkActive]="['is-active']"><img [src]="item.icon"
+        style="width: 25px;margin-right: 5px;margin-bottom: 4px;">&nbsp;{{item.title}}</button>
+  </div>
+</mat-expansion-panel>
+
+
+
+
+
+
 
 

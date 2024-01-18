@@ -1,0 +1,101 @@
+<mat-card style="margin: 14px;">
+
+  <div class="col-lg-12" style="opacity: 0%;height: 1px;">
+    <span style="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum enim non ratione minima repudiandae!
+      Nesciunt facilis explicabo, qui sunt iste possimus quia libero dolore odit cumque ducimus quis vero earum! Lorem
+      ipsum dolor sit, amet consectetur adipisicing elit. Nisi hic atque corrupti ducimus maxime magnam fugiat quidem,
+      numquam inventore quis dolores, quaerat autem odit minima nam fugit recusandae similique ab?</span>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col" style="zoom :70%; overflow: auto" id="tableWrapper_2">
+          <h1>Input Plan</h1>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="col-lg-4">
+
+
+      <div class="row">
+        <div style="margin: 14px;">
+          <mat-form-field appearance="fill">
+            <mat-label>Choose a date</mat-label>
+            <input matInput   [value]="moment(dateSelect).format('MMMM YYYY')" >
+            <input matInput [matDatepicker]="picker" hidden >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker startView="year" (monthSelected)="setMonthAndYear($event,picker)"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="this.dateSelect && this.checkHave.length == 0">
+        <div class="" style="margin: 14px;margin-top: 18px;">
+          <input hidden type="file" id="files" (change)="upload($event)" multiple="false">
+          <label class="btn btn-info " for="files"><img src="assets/excel.png" alt=""
+              style="width: 20px;margin: 5px;">Import</label>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="this.dateSelect && this.checkHave.length != 0">
+        <div class="" style="margin: 14px;margin-top: 18px;">
+          <button class="btn btn-danger" (click)="remove()" >REMOVE</button>
+        </div>
+      </div>
+
+      <div class="row" >
+        <div class="col" style="zoom :70%; overflow: auto ;" id="tableWrapper_2">
+          <h3>Not in the list</h3>
+          <ag-grid-angular #myGrid style="width: 100% ;height: 33rem" class="ag-theme-quartz"
+            [gridOptions]="gridOptions" [rowData]="rowData_list" [columnDefs]="columnDefs_list" [animateRows]="true"
+            [enableCellTextSelection]="true" [ensureDomOrder]="true" [tooltipMouseTrack]="true" [tooltipShowDelay]="0"
+            (filterChanged)="null"
+            [rowHeight]="35"
+            ></ag-grid-angular>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-4">
+      <div class="row" >
+        <div class="col" style="zoom :70%; overflow: auto" id="tableWrapper_2">
+          <h3>Analog</h3>
+          <ag-grid-angular #myGrid style="width: 100% ;height: 50rem" class="ag-theme-quartz"
+            [gridOptions]="gridOptions" [rowData]="rowData_Analog" [columnDefs]="columnDefs_Analog" [animateRows]="true"
+            [enableCellTextSelection]="true" [ensureDomOrder]="true" [tooltipMouseTrack]="true" [tooltipShowDelay]="0"
+            (filterChanged)="null"
+            [rowHeight]="35"
+            ></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="row" >
+        <div class="col" style="zoom :70%; overflow: auto" id="tableWrapper_2">
+          <h3>Digital</h3>
+          <ag-grid-angular #myGrid style="width: 100% ;height: 50rem" class="ag-theme-quartz"
+            [gridOptions]="gridOptions" [rowData]="rowData_Digital" [columnDefs]="columnDefs_Digital" [animateRows]="true"
+            [enableCellTextSelection]="true" [ensureDomOrder]="true" [tooltipMouseTrack]="true" [tooltipShowDelay]="0"
+            (filterChanged)="null"
+            [rowHeight]="35"
+            ></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+
+
+</mat-card>
+

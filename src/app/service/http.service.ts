@@ -18,6 +18,9 @@ export class HttpService {
   // updateAsset(id: any, data: any): Observable<any> {
   //   return this.http.put(this.Url + "/ITasset/insert/" + id, data)
   // }
+  Yield_Last(): Observable<any> {
+    return this.http.get(this.Url + "/yield_model/lastData/")
+  }
   Yield_add(data: any): Observable<any> {
     return this.http.post(this.Url + "/yield_model/", data)
   }
@@ -102,6 +105,51 @@ export class HttpService {
   }
 
 
+  Import_data_add(data: any): Observable<any> {
+    return this.http.post(this.Url + "/Import_data_macro/", data)
+  }
+  Import_dat_GetByCondition(data: any): Observable<any> {
+    return this.http.post(this.Url + "/Import_data_macro/getByCondition/", data)
+  }
+  Import_del_ByCondition(data: any): Observable<any> {
+    return this.http.post(this.Url + "/Import_data_macro/delByCondition/", data)
+  }
+  Import_dat_Aggregations(data: any): Observable<any> {
+    return this.http.post(this.Url + "/Import_data_macro/aggregations/", data)
+  }
+  Import_data_update(id: any, data: any): Observable<any> {
+    return this.http.put(this.Url + "/Import_data_macro/insert/" + id, data)
+  }
+
+
+
+  WIP_Update(id: any, data: any): Observable<any> {
+    return this.http.put(this.Url + "/WIP/insert/" + id, data)
+  }
+  WIP_Add(data: any): Observable<any> {
+    return this.http.post(this.Url + "/WIP/", data)
+  }
+  WIP_GetByCondition(data: any): Observable<any> {
+    return this.http.post(this.Url + "/WIP/getByCondition/", data)
+  }
+  WIP_DelByCondition(data: any): Observable<any> {
+    return this.http.post(this.Url + "/WIP/delByCondition/", data)
+  }
+
+
+
+  Input_Plan_Update(id: any, data: any): Observable<any> {
+    return this.http.put(this.Url + "/Input_Plan/insert/" + id, data)
+  }
+  Input_Plan_Add(data: any): Observable<any> {
+    return this.http.post(this.Url + "/Input_Plan/", data)
+  }
+  Input_Plan_GetByCondition(data: any): Observable<any> {
+    return this.http.post(this.Url + "/Input_Plan/getByCondition/", data)
+  }
+  Input_Plan_DelByCondition(data: any): Observable<any> {
+    return this.http.post(this.Url + "/Input_Plan/delByCondition/", data)
+  }
 
 }
 

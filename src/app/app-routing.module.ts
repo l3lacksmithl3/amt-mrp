@@ -5,6 +5,10 @@ import { UploadYieldComponent } from './page/yield/upload-yield/upload-yield.com
 import { ShowYieldComponent } from './page/yield/show-yield/show-yield.component';
 import { SummaryYieldComponent } from './page/yield/summary-yield/summary-yield.component';
 import { ModelYieldComponent } from './page/yield/model-yield/model-yield.component';
+import { InputCompareComponent } from './page/Input/input-compare/input-compare.component';
+import { CompareComponent } from './page/Compare/compare/compare.component';
+import { WipUploadComponent } from './page/WIP/wip-upload/wip-upload.component';
+import { InputPlanComponent } from './page/Input/input-plan/input-plan.component';
 
 
 const routes: Routes = [
@@ -24,12 +28,26 @@ const routes: Routes = [
   {
     path: 'model_yield', component: ModelYieldComponent
   },
+  {
+    path: 'InputCompare', component: InputCompareComponent
+  },
+  {
+    path: 'InputPlan', component: InputPlanComponent
+  },
+  {
+    path: 'Compare', component: CompareComponent
+  },
+
+
+  {
+    path: 'WIP_Upload', component: WipUploadComponent
+  },
 
 
 
   {
     path: '**',
-    redirectTo: 'upload_yield'
+    redirectTo: 'Compare'
     // redirectTo: 'dashboard'
   },
 ];

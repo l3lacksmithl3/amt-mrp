@@ -393,7 +393,6 @@ export class ShowYieldComponent implements OnInit {
       let DataByType = dataByType.filter((b:any)=>b['model'] == aver[0].Type)
       // DataByType = this.sort(DataByType, "date", 0)
       // DataByType = DataByType[DataByType.length - 1]
-      console.log("🚀 ~ file: show-yield.component.ts:385 ~ ShowYieldComponent ~ data ~ DataByType:", DataByType)
 
       if (data.length != 0 && data.length == 4) {
         // let newDate = data.slice(-3)
@@ -520,7 +519,7 @@ export class ShowYieldComponent implements OnInit {
   }
 
   async import_yield_byModel(wb: any) {
-    const ws: XLSX.WorkSheet = wb.Sheets['Sheet4'];
+    const ws: XLSX.WorkSheet = wb.Sheets['Sheet5'];
     if (!ws) {
       Swal.fire(`The information doesn't match.<br> Please check again.`, '', 'error')
     } else {
@@ -578,47 +577,48 @@ export class ShowYieldComponent implements OnInit {
       //   }
       // }
       let list = {
-        'date': moment('2023-10-1').format()
+        'date': moment('2023-11-1').format()
       }
       let data = await lastValueFrom(this.api.getByAG(list))
+      console.log("🚀 ~ file: show-yield.component.ts:583 ~ ShowYieldComponent ~ import_yield_byModel ~ data:", data)
 
-      for (const model of this.data_pu) {
+
+
+      for (const model of rawdata) {
         // console.log("🚀 ~ file: show-yield.component.ts:549 ~ ShowYieldComponent ~ import_yield_byModel ~ data:", data)
-        let oop = data.filter((d: any) => d['Model No'] == model['Model'])
-        let aaa = rawdata.filter((d: any) => d['A'] == model['Model'])[0]
-        if (aaa) {
-          aaa = aaa['B']
-        } else {
-          aaa = 0
-        }
+        let oop = data.filter((d: any) => d['Model No'] == model['A'])
+        // let aaa = rawdata.filter((d: any) => d['A'] == model['Model'])[0]
         if (oop.length != 0) {
           //update
           oop = oop.map((e: any) => {
             return {
               ...e,
-              PU_yield: aaa
+              PU_yield: model['B']
             }
           })
           console.log(oop[0]);
-          let update = await lastValueFrom(this.api.YieldUpdate(oop[0]['_id'], oop[0]))
+          if (oop[0]['Model No']) {
+
+          }
+          // let update = await lastValueFrom(this.api.YieldUpdate(oop[0]['_id'], oop[0]))
         } else {
           //add
-          let loo = {
-            "date": moment('2023-10-1').format(),
-            "Analog / Digital": model['TypeAD'],
-            "Type": model['Type'],
-            "Model No": model['Model'],
-            "Customer part number": model['Customer'],
-            "Input": 0,
-            "Output": 0,
-            "Output repair": 0,
-            "Total output": 0,
-            "Strt yield": 0,
-            "Total yields": 0,
-            "PU_yield": aaa,
-          }
-          console.log(loo);
-          let update = await lastValueFrom(this.api.Yield_add(loo))
+          // let loo = {
+          //   "date": moment('2023-11-1').format(),
+          //   "Analog / Digital": model['C'],
+          //   "Type": model['E'],
+          //   "Model No": model['A'],
+          //   "Customer part number": model['D'],
+          //   "Input": 0,
+          //   "Output": 0,
+          //   "Output repair": 0,
+          //   "Total output": 0,
+          //   "Strt yield": 0,
+          //   "Total yields": 0,
+          //   "PU_yield": model['B'],
+          // }
+          // console.log(loo);
+          // let update = await lastValueFrom(this.api.Yield_add(loo))
 
 
         }

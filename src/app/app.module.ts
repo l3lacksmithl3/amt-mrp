@@ -27,6 +27,12 @@ import { AgGridModule } from 'ag-grid-angular';
 import { SummaryYieldComponent } from './page/yield/summary-yield/summary-yield.component';
 import { BracketYieldComponent } from './page/yield/bracket-yield/bracket-yield.component';
 import { ModelYieldComponent } from './page/yield/model-yield/model-yield.component';
+import { ModelYieldDialogComponent } from './page/yield/model-yield-dialog/model-yield-dialog.component';
+import { SummaryYieldDialogComponent } from './page/yield/summary-yield-dialog/summary-yield-dialog.component';
+import { InputCompareComponent } from './page/Input/input-compare/input-compare.component';
+import { CompareComponent } from './page/Compare/compare/compare.component';
+import { WipUploadComponent } from './page/WIP/wip-upload/wip-upload.component';
+import { InputPlanComponent } from './page/Input/input-plan/input-plan.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -49,6 +55,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SummaryYieldComponent,
     BracketYieldComponent,
     ModelYieldComponent,
+    ModelYieldDialogComponent,
+    SummaryYieldDialogComponent,
+    InputCompareComponent,
+    CompareComponent,
+    WipUploadComponent,
+    InputPlanComponent,
 
   ],
   imports: [

@@ -1,0 +1,20 @@
+.calendar{
+  position: fixed;
+  z-index: 99999;
+  top: 0rem;
+  right: 2rem;
+  color: white;
+}
+
+
+.hide{
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+}
+
+
+.btn:focus, .btn.focus {
+  /* outline: 0; */
+  box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 0%);
+}

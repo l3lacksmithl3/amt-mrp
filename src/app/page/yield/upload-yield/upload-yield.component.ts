@@ -10,6 +10,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { GridOptions } from 'ag-grid-community';
 
 @Component({
   selector: 'app-upload-yield',
@@ -22,6 +23,28 @@ export class UploadYieldComponent implements OnInit {
   dateSelect: any
   data: any = []
   dataExcel: any
+  moment :any = moment
+  rowData :any = []
+  columnDefs :any = []
+
+  gridOptions: GridOptions<any> = {
+    accentedSort: true,
+    rowSelection: 'multiple',
+    suppressRowClickSelection: true,
+    defaultColDef: {
+      lockPinned: true,
+      // sortable: true,
+      filter: true,
+      // editable: true,
+      floatingFilter: true,
+      floatingFilterComponentParams: {
+        suppressFilterButton: true,
+      },
+
+    },
+
+
+  }
 
   displayedColumns: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9',];
   dataSource = new MatTableDataSource
@@ -34,7 +57,8 @@ export class UploadYieldComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.ngxService.start()
+    this.ngxService.stop()
   }
 
   upload(evt: any) {
@@ -54,9 +78,9 @@ export class UploadYieldComponent implements OnInit {
       // console.log(data);
       this.ngxService.start()
       //TODO /////////////////////////////////////////////////////////////////
+      this.import_yield_byModel(wb)
       this.import_yield_sum(wb)
       this.import_yield_bracket(wb)
-      this.import_yield_byModel(wb)
 
 
     };
@@ -70,7 +94,7 @@ export class UploadYieldComponent implements OnInit {
 
 
   async import_yield_byModel(wb: any) {
-    const ws: XLSX.WorkSheet = wb.Sheets['Yield'];
+    const ws: XLSX.WorkSheet = wb.Sheets['Yield by type'];
     if (!ws) {
       Swal.fire(`The information doesn't match.<br> Please check again.`, '', 'error')
     } else {
@@ -83,6 +107,7 @@ export class UploadYieldComponent implements OnInit {
         let text2 = text.replaceAll('\r\n', '')
         return text2
       })
+
       console.log(header);
 
       let data_raw: any = {}
@@ -143,7 +168,7 @@ export class UploadYieldComponent implements OnInit {
 
 
   async import_yield_sum(wb: any) {
-    const ws: XLSX.WorkSheet = wb.Sheets['Summary'];
+    const ws: XLSX.WorkSheet = wb.Sheets['Yield by type'];
     if (!ws) {
       Swal.fire(`The information doesn't match.<br> Please check again.`, '', 'error')
     } else {
@@ -172,13 +197,16 @@ export class UploadYieldComponent implements OnInit {
               type: this.dataExcel[row][0],
               "StrtYield": this.dataExcel[row][index],
               "TotalYield": this.dataExcel[row][index + 1],
-              'statusType' : "NA"
+              'PU_yield' : 0
             }
             rawdata.push(data)
           }
         }
       }
+      // console.log(rawdata);
       rawdata = rawdata.filter((d: any) => d.date == moment(this.dateSelect).format())
+      // console.log(rawdata);
+
       let check = await lastValueFrom(this.api.Yield_Sum_GetByCondition({ date: this.dateSelect }))
       if (check.length != 0) {
         for (const [i, item] of check.entries()) {
@@ -192,19 +220,19 @@ export class UploadYieldComponent implements OnInit {
 
 
 
-      // let del = await lastValueFrom(this.api.Yield_Sum_ByCondition({}))
-      // if (del) {
-      //   for (const item of rawdata) {
-      //     let addData = await lastValueFrom(this.api.Yield_Sum_add(item))
-      //   }
-      // }
+      let del = await lastValueFrom(this.api.Yield_Sum_ByCondition({}))
+      if (del) {
+        for (const item of rawdata) {
+          let addData = await lastValueFrom(this.api.Yield_Sum_add(item))
+        }
+      }
 
     }
   }
 
 
   async import_yield_bracket(wb: any) {
-    const ws: XLSX.WorkSheet = wb.Sheets['Bracket'];
+    const ws: XLSX.WorkSheet = wb.Sheets["Mat'l Type"];
     if (!ws) {
       Swal.fire(`The information doesn't match.<br> Please check again.`, '', 'error')
     } else {
@@ -224,7 +252,6 @@ export class UploadYieldComponent implements OnInit {
       }
       // console.log(max_row);
 
-      // console.log(this.dataExcel);
 
       let rawdata = []
       for (let row = 1; row < max_row; row++) {
@@ -235,17 +262,20 @@ export class UploadYieldComponent implements OnInit {
               "Material %NG": this.dataExcel[row][1],
               "date": moment(this.dataExcel[0][index].replace("-", "-20")).format(),
               "value": this.dataExcel[row][index],
-              'PU_yield' : "0"
+              'PU_yield' : "0",
             }
             rawdata.push(data)
           }
         }
       }
       rawdata = rawdata.filter((d: any) => d.date == moment(this.dateSelect).format())
-      // console.log(rawdata);
+      console.log(rawdata);
+
 
 
       let check = await lastValueFrom(this.api.Yield_bracket_GetByCondition({ date: this.dateSelect }))
+      console.log(check);
+
       if (check.length != 0) {
         for (const [i, item] of check.entries()) {
           let update = await lastValueFrom(this.api.Yield_bracket_update(item._id, { value: rawdata[i].value }))
@@ -261,10 +291,96 @@ export class UploadYieldComponent implements OnInit {
 
 
   async updateInput() {
+    this.ngxService.start()
     this.dateSelect = moment(this.dateSelect).date(1).format();
     let get_dataByDate = await lastValueFrom(this.api.YieldGetByCondition({ date: moment(this.dateSelect).format() }))
     this.data = get_dataByDate
-    this.dataSource = new MatTableDataSource(this.data)
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource = new MatTableDataSource(this.data)
+    console.log("🚀 ~ UploadYieldComponent ~ updateInput ~ this.data:", this.data)
+    // this.dataSource.paginator = this.paginator;
+    this.setColumnDefs()
+    this.setRowData()
+    this.ngxService.stop()
+
+  }
+
+  setMonthAndYear(normalizedMonthAndYear: any , datepicker :any) {
+    this.dateSelect = normalizedMonthAndYear
+    datepicker.close();
+    this.updateInput()
+  }
+
+
+  setRowData(){
+    this.rowData = this.data
+  }
+
+  setColumnDefs(){
+    var elements = document.querySelectorAll('.ag-body-viewport.ag-selectable.ag-layout-normal.ag-row-no-animation');
+    let width: any
+    elements.forEach(function (element) {
+      var style = getComputedStyle(element);
+      width = parseInt(style.width);
+    });
+
+    let field = [
+      {
+        headerName: `Model No.`,
+        field: "Model No",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+      {
+        headerName: `Type`,
+        field: "Type",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+      {
+        headerName: `Input`,
+        field: "Input",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+      {
+        headerName: `Output`,
+        field: "Output",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+      {
+        headerName: `Output repair`,
+        field: "Output repair",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+      {
+        headerName: `Total output`,
+        field: "Total output",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+      {
+        headerName: `Strt yield`,
+        field: "Strt yield",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+      {
+        headerName: `Total yields`,
+        field: "Total yields",
+        width: width/8,
+        pinned: 'top',
+        suppressMovable: true,
+      },
+    ]
+    this.columnDefs = field
   }
 }

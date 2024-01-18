@@ -66,7 +66,7 @@ export class BracketYieldComponent implements OnInit {
     this.endDate = moment().format()
 
     this.updateDate()
-    this.checkupdate()
+    // this.checkupdate()
 
 
   }
@@ -84,43 +84,42 @@ export class BracketYieldComponent implements OnInit {
   }
 
 
-  async checkupdate() {
+  // async checkupdate() {
 
-    let data_NA = this.data_bracket.filter((d: any) => d.statusType == "NA")
-    let data_PU = this.data_bracket.filter((d: any) => d.statusType == "PU")
+  //   let data_NA = this.data_bracket.filter((d: any) => d.statusType == "NA")
+  //   let data_PU = this.data_bracket.filter((d: any) => d.statusType == "PU")
 
-    let list = []
-    for (const item of data_NA) {
-      let checkHave = data_PU.some((d: any) =>
-        d['Analog/Digital'] == item['Analog/Digital'] &&
-        d['Material %NG'] == item['Material %NG'] &&
-        d['date'] == item['date'],
-      )
-
-
-      if (!checkHave) {
-        let date: any = [...new Set(data_PU.map((item: any) => item.date))];
-        date.sort()
-        let data_user = data_PU.filter((d: any) => d.date == date[date.length - 1] && d['Analog/Digital'] == item['Analog/Digital'] && d['Material %NG'] == item['Material %NG'])
-        item.value = data_user[0].value
-        delete item._id
-        item.statusType = "PU"
-        list.push(item)
-      }
-    }
-
-    let add = await lastValueFrom(this.api.Yield_bracket_add(list))
+  //   let list = []
+  //   for (const item of data_NA) {
+  //     let checkHave = data_PU.some((d: any) =>
+  //       d['Analog/Digital'] == item['Analog/Digital'] &&
+  //       d['Material %NG'] == item['Material %NG'] &&
+  //       d['date'] == item['date'],
+  //     )
 
 
+  //     if (!checkHave) {
+  //       let date: any = [...new Set(data_PU.map((item: any) => item.date))];
+  //       date.sort()
+  //       let data_user = data_PU.filter((d: any) => d.date == date[date.length - 1] && d['Analog/Digital'] == item['Analog/Digital'] && d['Material %NG'] == item['Material %NG'])
+  //       item.value = data_user[0].value
+  //       delete item._id
+  //       item.statusType = "PU"
+  //       list.push(item)
+  //     }
+  //   }
 
-  }
+  //   let add = await lastValueFrom(this.api.Yield_bracket_add(list))
+
+
+
+  // }
 
 
 
   async updateInput() {
 
-    let data_NA = this.data_bracket.filter((d: any) => d.statusType == "NA")
-
+    let data_NA = this.data_bracket
     let field: any = [
       {
         field: "Analog / Digital",
@@ -134,12 +133,18 @@ export class BracketYieldComponent implements OnInit {
     ]
     let date: any = [...new Set(data_NA.map((item: any) => item.date))];
     date.sort()
-    console.log("🚀 ~ file: bracket-yield.component.ts:134 ~ BracketYieldComponent ~ updateInput ~ date:", date)
-    for (const iterator of date) {
+    for (const [index, iterator] of date.entries()) {
       field.push(
         {
-          field: `${moment(iterator).format("MMM YYYY")}`,
-          width: 110
+          field: `${moment(iterator).format("MMM YY")}`,
+          width: 110,
+          valueGetter: function (params: any) {
+            if (params.data.value && params.data.value.length > 0) {
+              let value = params.data.value[index + 0]['value']
+              return value ? value : ''
+            }
+            return '';
+          },
         }
       )
     }
@@ -147,19 +152,36 @@ export class BracketYieldComponent implements OnInit {
 
     let lastData = []
     let type: any = [...new Set(data_NA.map((item: any) => item['Analog/Digital']))];
+
+
     for (const iterator of type) {
       let data = data_NA.filter((d: any) => d['Analog/Digital'] == iterator)
-      let list: any = {
-        "Analog / Digital": iterator,
-        "Material %NG": data[0]['Material %NG']
-      }
+      // let list: any = {
+      //   "Analog / Digital": iterator,
+      //   "Material %NG": data[0]['Material %NG']
+      // }
+      let list_new: any = []
       for (const item of date) {
         let data = data_NA.filter((d: any) => d['Analog/Digital'] == iterator && d.date == item)
         if (data.length != 0) {
-          list[`${moment(item).format('MMM YYYY')}`] = ((Number(data[0].value) * 100).toFixed(2)).toString() + " %"
+          // list[`${moment(item).format('MMM YYYY')}`] = ((Number(data[0].value) * 100).toFixed(2)).toString() + " %"
+          list_new.push(
+            {
+              'data': `${moment(item).format("MMM 'YY")}`,
+              'value': ((Number(data[0].value) * 100).toFixed(2)).toString() + " %",
+              'pu': ((Number(data[0].PU_yield) * 100).toFixed(2)).toString() + " %",
+            }
+          )
         }
       }
-      lastData.push(list)
+      lastData.push(
+        {
+          "Analog / Digital": iterator,
+          "Material %NG": data[0]['Material %NG'],
+          'value': list_new
+        }
+      )
+
     }
     this.rowData = lastData
   }
@@ -167,8 +189,7 @@ export class BracketYieldComponent implements OnInit {
 
 
   async updateInput_PU() {
-    let data_PU = this.data_bracket.filter((d: any) => d.statusType == "PU")
-
+    let data_PU = this.data_bracket
     let field: any = [
       {
         field: "Analog / Digital",
@@ -183,13 +204,43 @@ export class BracketYieldComponent implements OnInit {
 
     let date: any = [...new Set(data_PU.map((item: any) => item.date))];
     date.sort()
-    for (const iterator of date) {
+    for (const [index, iterator] of date.entries()) {
+      // field.push(
+      //   {
+      //     field: `${moment(iterator).format("MMM YYYY")}`,
+      //     width: 110,
+      //     editable: true,
+      //     onCellValueChanged: this.onCellValueChanged.bind(this),
+      //   }
+      // )
       field.push(
         {
-          field: `${moment(iterator).format("MMM YYYY")}`,
+          field: `${moment(iterator).format("MMM YY")}`,
           width: 110,
           editable: true,
-          onCellValueChanged: this.onCellValueChanged.bind(this),
+          onCellValueChanged: this.onCellValueChanged.bind(this, this, index),
+          valueGetter: function (params: any) {
+            if (params.data.value && params.data.value.length > 0) {
+              let value = params.data.value[index + 0]['pu']
+              // let value = 'sss'
+              return value ? value : ''
+            }
+            return '';
+          },
+          // cellRenderer: (data: any) => {
+          //   const text = document.createElement('text');
+          //   text.innerHTML = `${data.value}` ? `${data.value}` : '-';
+
+          //   // text.classList.add('setFull')
+
+          //   // if (data.data.value[index + 0]['StatusType'] == 1) {
+          //   //   text.classList.add('color_type_By')
+          //   // }
+
+          //   return text;
+          // }
+
+
         }
       )
     }
@@ -203,46 +254,70 @@ export class BracketYieldComponent implements OnInit {
     let type: any = [...new Set(data_PU.map((item: any) => item['Analog/Digital']))];
     for (const iterator of type) {
       let data = data_PU.filter((d: any) => d['Analog/Digital'] == iterator)
-      let list: any = {
-        "Analog / Digital": iterator,
-        "Material %NG": data[0]['Material %NG']
-      }
+      // let list: any = {
+      //   "Analog / Digital": iterator,
+      //   "Material %NG": data[0]['Material %NG']
+      // }
+      let list_new: any = []
       for (const item of date) {
         let data = data_PU.filter((d: any) => d['Analog/Digital'] == iterator && d.date == item)
         if (data.length != 0) {
-          list[`${moment(item).format('MMM YYYY')}`] = ((Number(data[0].value) * 100).toFixed(2)).toString() + " %"
+          // list[`${moment(item).format('MMM YYYY')}`] = ((Number(data[0].value) * 100).toFixed(2)).toString() + " %"
+          list_new.push(
+            {
+              'data': `${moment(item).format("MMM 'YY")}`,
+              'value': ((Number(data[0].value) * 100).toFixed(2)).toString() + " %",
+              'pu': ((Number(data[0].PU_yield) * 100).toFixed(2)).toString() + " %",
+              'id' : data[0]._id
+            }
+          )
         }
       }
-      lastData.push(list)
+      lastData.push(
+        {
+          "Analog / Digital": iterator,
+          "Material %NG": data[0]['Material %NG'],
+          'value': list_new
+        }
+      )
+
     }
     this.rowData_PU = lastData
-
   }
 
 
 
-  async onCellValueChanged(params: any) {
-    this.data_bracket = this.data_bracket.map((e: any) => {
-      return {
-        ...e,
-        newDate: moment(e.date).format('MMM YYYY')
-      }
-    })
+  async onCellValueChanged(context: any, index: any, params: any) {
 
-    let rawData = this.data_bracket.filter((d: any) =>
-      d.statusType == 'PU' &&
-      d.newDate == params.colDef.field &&
-      d["Analog/Digital"] == params.data['Analog / Digital'] &&
-      d["Material %NG"] == params.data['Material %NG']
-    )
+
+    console.log(params.data.value[index]);
+
+    console.log(`${params.colDef.field}`);
+    console.log(params.data[`${params.colDef.field}`]);
+
+
+
+    // this.data_bracket = this.data_bracket.map((e: any) => {
+    //   return {
+    //     ...e,
+    //     newDate: moment(e.date).format('MMM YYYY')
+    //   }
+    // })
+
+    // let rawData = this.data_bracket.filter((d: any) =>
+    //   d.newDate == params.colDef.field &&
+    //   d["Analog/Digital"] == params.data['Analog / Digital'] &&
+    //   d["Material %NG"] == params.data['Material %NG']
+    // )
+
     Swal.fire({
-      title: `Do you want to change ? <br> ${params.oldValue} => ${params.newValue} `,
+      title: `Do you want to change ? <br> ${params.oldValue} => ${params.data[`${params.colDef.field}`]} `,
       icon: 'question',
       showCancelButton: true,
     }).then(async r => {
       if (r.isConfirmed) {
         //code start
-        let update = lastValueFrom(this.api.Yield_bracket_update(rawData[0]._id, { value: Number(params.newValue.toString().replace("%", "")) / 100 }))
+        let update :any = lastValueFrom(this.api.Yield_bracket_update(params.data.value[index].id, { PU_yield: Number(params.data[`${params.colDef.field}`].toString().replace("%", "")) / 100 }))
         //code end
         setTimeout(() => {
           Swal.fire({
@@ -251,6 +326,8 @@ export class BracketYieldComponent implements OnInit {
             title: 'Success',
             showConfirmButton: false,
             timer: 1500,
+          }).then(()=>{
+            this.updateDate()
           })
         }, 200);
       }
@@ -258,6 +335,10 @@ export class BracketYieldComponent implements OnInit {
 
 
     // s
+
+  }
+
+  update(){
 
   }
 

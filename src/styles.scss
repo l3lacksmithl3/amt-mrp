@@ -1,15 +1,203 @@
 /* You can add global styles to this file, and also import other style files */
 /* Core Grid CSS */
 
+
 @import "~ag-grid-community/styles//ag-grid.css";
 @import "~ag-grid-community/styles//ag-theme-quartz.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-@import 'google.css'
+@import "~bootstrap/scss/bootstrap";
+@import "google.css";
+
+.setCenter {
+  justify-content: center !important;
+}
+
+.ag-header-cell-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  justify-content: center;
+}
+
+// .ag-floating-filter {
+//   background-color: #2244cc22 !important;
+// }
+
+// .ag-header-group-cell {
+//   background-color: #33cc3366 !important;
+// }
+
+// .ag-header-cell {
+//   background-color: #33cc3344 !important;
+// }
+
+// .ag-floating-filter {
+//   background-color: #33cc3322 !important;
+// }
+.ag-header-container {
+  background-color: #33cc3377 !important;
+  font-size: 18px;
+}
+
+.ag-pinned-left-header {
+  background-color: #3340cc77 !important;
+  font-size: 18px;
+}
+
+.ag-pinned-right-header {
+  background-color: #3340cc77 !important;
+  font-size: 18px;
+}
+
+.color {
+  background-color: #3340cc7e !important;
+  font-size: 18px;
+}
+
+.colorYield {
+  background-color: #ffbc0279 !important;
+  text-align: center !important;
+}
+
+.colorYieldlock {
+  background-color: #5b5d5d7a !important;
+}
+
+.ag-cell-wrapper {
+  text-align-last: center !important;
+}
+
+.setBG {
+  background-color: #5b5d5d7a !important;
+}
+
+.setFull {
+  width: 100% !important;
+}
+
+.Yield_Full {
+  background-color: #9f802d79 !important;
+  text-align: center !important;
+  padding: 0px;
+  display: grid;
+  align-content: center;
+}
+
+.color_type {
+  color: blue !important;
+  // background-color: green !important;
+}
+
+.color_red {
+  color: red !important;
+  // background-color: green !important;
+}
+
+.color_type_not {
+  // color: green !important;
+  background-color: green !important;
+  text-align: center !important;
+  padding: 0px;
+  display: grid;
+  align-content: center;
+  color: white;
+}
+
+.color_type_By {
+  // color: green !important;
+  // background-color: rgb(0, 2, 128) !important;
+  // text-align: center !important;
+  // padding: 0px;
+  // display: grid;
+  // align-content: center;
+  // color: white;
+  color: blue;
+}
+
+.color_type_By_full {
+  background-color: #daf8f9 !important;
+  color: red;
+  // text-align: center !important;
+  // padding: 0px;
+  // display: grid;
+  // align-content: center;
+}
+
+.color_YieldByType {
+  background-color: #3340cc7e !important;
+  color: blue;
+  font-size: 18px;
+}
+
+.setColor_blue {
+  color: blue !important;
+  // background-color: red !important;
+}
+
+.setColor_dup {
+  color: rgb(255, 255, 255) !important;
+  // background-color: red !important;
+  // padding: 20px !important;
+  // font-size: 14px !important;
+  background-color: rgb(250, 30, 30) !important;
+  text-align: center !important;
+  padding: 0px;
+  display: grid;
+  align-content: center;
+}
+
+.Color_RED {
+  color: red !important;
+}
+
+.Color_PINK {
+  background-color: rgba(255, 192, 203, 0.547) !important;
+  text-align: center !important;
+  padding: 0px;
+  display: grid;
+  align-content: center;
+}
+
+.Color_YELLOW {
+  background-color: rgba(255, 255, 55, 0.459) !important;
+  text-align: center !important;
+  padding: 0px;
+  display: grid;
+  align-content: center;
+}
+
+.Color_Green {
+  background-color: rgba(0, 128, 0, 0.484) !important;
+  text-align: center !important;
+  padding: 0px;
+  display: grid;
+  align-content: center;
+
+}
+
+.Color_BlueLow {
+  background-color: rgba(192, 233, 255, 0.547) !important;
+  text-align: center !important;
+  padding: 0px;
+  display: grid;
+  align-content: center;
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
 
 
 
